@@ -1,0 +1,68 @@
+<div class="course-card" *ngIf="course" [ngClass]="cardClasses()"  style="text-decoration: underline;" >
+
+    <div class="course-title" [ngStyle]="cardStyles">
+    {{index || ''}}    {{course.description}}
+    </div>
+
+    <!-- <ng-content  select=".course-Image"></ng-content> -->
+
+    <ng-content  select="course-image"  *ngIf="course.iconUrl; else noImage" ></ng-content>
+
+    <ng-template #noImage>
+        <ng-container *ngTemplateOutlet="noImageTpl; context: {description: course.description }"></ng-container>
+    </ng-template>
+    
+    <!-- <img width="300"  alt="Angular Logo" *ngIf="isImageVisible(); else noImage"
+    [src]="course.iconUrl" /> -->
+
+
+  
+    <!-- @if(course.id == 1){
+       <h2>Course with id 1 detected</h2>
+    }
+    @else if (course.iconUrl) {
+        <img width="300" alt="Angular Logo"
+        [src]="course.iconUrl">
+    }
+    @else {
+        <h2>No image available</h2>
+    } -->
+
+    <!-- Old Syntax -->
+
+  
+
+    <div class="course-description">
+        {{ course.longDescription}}
+    </div>
+
+    
+   
+    <div class="course-category" [ngSwitch]="course.category" >
+        <ngcontainer *ngSwitchCase="'BEGINNER'">
+            <div class="category"  >BEGINNER</div>
+        </ngcontainer>
+       
+        <div class="category" *ngSwitchCase="'INTERMEDIATE'" >INTERMEDIATE</div>
+        <div class="category" *ngSwitchCase="'ADVANCED'" >ADVANCED</div>
+        <div class="category" *ngSwitchDefault>All Levels</div>
+
+        <!-- @switch (course.category) {
+            @case ("BEGINNER") {
+                <div class="category">BEGINNER</div>
+            }
+            @case ("INTERMEDIATE") {
+                <div class="category">INTERMEDIATE</div>
+            }
+            @case ("ADVANCED") {
+                <div class="category">ADVANCED</div>
+            }
+            @default {
+                <div class="category">UNKNOWN</div>
+            }
+        } -->
+    </div>
+
+    <button (click)="onCourseViewed()" >View Course</button>
+
+</div>
