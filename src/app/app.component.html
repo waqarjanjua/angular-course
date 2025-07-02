@@ -7,9 +7,17 @@
 
 <div>
 
-  <div class="courses">
+  <div class="demo">
+      <button (click)="onEditCourse()" >Edit Course</button>
+  </div>
 
-    <course-card *ngFor="let course of courses"
+  <div class="courses" >
+  <!-- <div class="courses" *ngIf="courses$ | async as courses"> -->
+    <div class="courses" >
+
+    <course-card highlighted *ngFor="let course of courses"
+                (courseChanged)="save($event)"
+                type="beginner"
                  [course]="course">
 
       <course-image [src]="course.iconUrl"></course-image>

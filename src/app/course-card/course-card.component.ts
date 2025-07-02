@@ -8,17 +8,30 @@ import {
     Input,
     OnInit,
     Output,
+    Inject,
     QueryList,
-    ViewEncapsulation
+    ViewEncapsulation,
+    Self,
+    SkipSelf,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Attribute
 } from '@angular/core';
 import {Course} from '../model/course';
 import {CourseImageComponent} from '../course-image/course-image.component';
+import { CoursesService } from '../services/courses.service';
+//import { ChangeDetectionStrategy } from '@angular/compiler';
+//import { COURSES_SERVICE } from '../app.module';
 
 @Component({
     selector: 'course-card',
     templateUrl: './course-card.component.html',
     styleUrls: ['./course-card.component.css'],
-    standalone: false
+    providers: [
+        CoursesService
+    ],    
+    standalone: false,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseCardComponent implements OnInit {
 
@@ -32,12 +45,20 @@ export class CourseCardComponent implements OnInit {
     courseEmitter = new EventEmitter<Course>();
 
 
-    constructor() {
-
+    constructor(@SkipSelf() private courseService : CoursesService, @Attribute('type') private type : string,
+private cd:ChangeDetectorRef)
+    {
+        console.log('type : '+type);
     }
 
-    ngOnInit() {
 
+    //   constructor(@Inject(COURSES_SERVICE) private courseService : CoursesService
+    // ) {
+
+    // }
+
+    ngOnInit() {
+            console.log("course card"+this.courseService.id);
     }
 
 
@@ -45,6 +66,12 @@ export class CourseCardComponent implements OnInit {
 
         this.courseEmitter.emit({...this.course, description});
 
+    }
+
+    onTitleChanged(newTitle:string)
+    {
+        this.course.description = newTitle;
+     
     }
 
 
